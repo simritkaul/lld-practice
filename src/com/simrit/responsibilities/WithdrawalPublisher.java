@@ -15,6 +15,11 @@ public class WithdrawalPublisher {
         withdrawalListeners.add(withdrawalListener);
     }
 
+    public void unsubscribe(WithdrawalListener withdrawalListener) {
+        if (withdrawalListener == null) throw new IllegalArgumentException("Withdrawal listener cannot be null");
+        withdrawalListeners.remove(withdrawalListener);
+    }
+
     public void onWithdrawal(BankAccount account, double amount) {
         for (WithdrawalListener listener : withdrawalListeners) {
             listener.onWithdrawal(account, amount);
