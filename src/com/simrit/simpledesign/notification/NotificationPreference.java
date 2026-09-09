@@ -1,4 +1,4 @@
-package com.simrit.simpledesign;
+package com.simrit.simpledesign.notification;
 
 import java.util.HashSet;
 import java.util.Set;

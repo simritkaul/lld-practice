@@ -1,4 +1,7 @@
-package com.simrit.simpledesign;
+package com.simrit.simpledesign.recipient;
+
+import com.simrit.simpledesign.notification.NotificationType;
+import com.simrit.simpledesign.user.User;
 
 public class RecipientFactory {
     public RecipientFactory() {};

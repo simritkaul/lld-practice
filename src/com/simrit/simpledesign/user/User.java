@@ -1,7 +1,9 @@
-package com.simrit.simpledesign;
+package com.simrit.simpledesign.user;
 
 import com.simrit.helpers.IllegalStringArgumentException;
 import com.simrit.helpers.ValidationHelper;
+import com.simrit.simpledesign.notification.NotificationPreference;
+import com.simrit.simpledesign.notification.NotificationPreferenceType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,5 +56,7 @@ public class User {
         notificationPreferences.put(type, notificationPreference);
     }
 
-    public NotificationPreference getNotificationPreference(NotificationPreferenceType type) { return notificationPreferences.get(type); }
+    public NotificationPreference getNotificationPreference(NotificationPreferenceType type) {
+        return notificationPreferences.get(type);
+    }
 }

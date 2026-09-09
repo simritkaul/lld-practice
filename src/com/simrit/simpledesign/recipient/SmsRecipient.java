@@ -1,4 +1,4 @@
-package com.simrit.simpledesign;
+package com.simrit.simpledesign.recipient;
 
 import com.simrit.helpers.IllegalStringArgumentException;
 import com.simrit.helpers.ValidationHelper;

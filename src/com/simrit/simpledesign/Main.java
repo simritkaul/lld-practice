@@ -1,5 +1,12 @@
 package com.simrit.simpledesign;
 
+import com.simrit.simpledesign.notification.*;
+import com.simrit.simpledesign.retry.*;
+import com.simrit.simpledesign.user.User;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Main {
     public static void main(String[] args) {
         runNotification();
@@ -25,7 +32,14 @@ public class Main {
         secondNotificationPreference.addPreference(NotificationType.SMS);
         secondUser.addNotificationPreference(NotificationPreferenceType.TRANSACTIONAL, secondNotificationPreference);
 
-        NotificationHandler notificationHandler = new NotificationHandler();
+        Map<NotificationType, RetryPolicy> retryPolicies = new HashMap<>();
+        retryPolicies.put(NotificationType.EMAIL, new EmailRetryPolicy());
+        retryPolicies.put(NotificationType.SMS, new SmsRetryPolicy());
+        retryPolicies.put(NotificationType.PUSH, new PushRetryPolicy());
+
+        RetryHandler retryHandler = new RetryHandler();
+
+        NotificationHandler notificationHandler = new NotificationHandler(retryPolicies, retryHandler);
         notificationHandler.addNotificationService(new EmailService());
         notificationHandler.addNotificationService(new SmsService());
         notificationHandler.addNotificationService(new PushService());

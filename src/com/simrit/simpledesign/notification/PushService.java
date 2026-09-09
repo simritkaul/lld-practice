@@ -1,7 +1,8 @@
-package com.simrit.simpledesign;
+package com.simrit.simpledesign.notification;
 
 import com.simrit.helpers.IllegalStringArgumentException;
 import com.simrit.helpers.ValidationHelper;
+import com.simrit.simpledesign.recipient.PushRecipient;
 
 public class PushService implements NotificationService<PushRecipient> {
     @Override
