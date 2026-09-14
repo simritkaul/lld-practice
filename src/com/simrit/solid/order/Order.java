@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Order {
     private final String id;
-    private Map<String, OrderItem> items;
+    private final Map<String, OrderItem> items;
 
     public Order (String id) {
         if (ValidationHelper.isNullOrEmpty(id)) throw new IllegalStringArgumentException("ID");
@@ -19,7 +19,6 @@ public class Order {
     }
 
     public String getId() { return id; }
-    public Map<String, OrderItem> getItems() { return new HashMap<>(items); }
 
     public void addProduct(Product product) {
         if (product == null) throw new IllegalArgumentException("Product cannot be null");
