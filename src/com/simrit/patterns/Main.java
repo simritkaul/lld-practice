@@ -4,6 +4,7 @@ import com.simrit.patterns.document.events.AuditListener;
 import com.simrit.patterns.document.events.DocumentProcessedEvent;
 import com.simrit.patterns.document.events.HistoryListener;
 import com.simrit.patterns.document.events.Publisher;
+import com.simrit.patterns.document.job.DocumentProcessingJob;
 import com.simrit.patterns.document.processor.DocumentProcessorFactory;
 import com.simrit.patterns.document.DocumentType;
 
@@ -21,5 +22,10 @@ public class Main {
         publisher.register(new HistoryListener());
         publisher.register(new AuditListener());
         publisher.notify(new DocumentProcessedEvent("test2.pdf"));
+
+        DocumentProcessingJob documentProcessingJob = new DocumentProcessingJob.Builder("test3.xlsx", DocumentType.EXCEL)
+                .retryCount(3)
+                .notificationEnabled(true)
+                .build();
     }
 }
