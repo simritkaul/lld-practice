@@ -4,9 +4,12 @@ import com.simrit.concurrency.counter.Counter;
 import com.simrit.concurrency.inventory.Inventory;
 import com.simrit.concurrency.worker.Worker;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        runInventory();
+        runExecutor();
     }
 
     private static void runCounter() throws InterruptedException {
@@ -73,5 +76,30 @@ public class Main {
         t2.join();
 
         System.out.println("Final stock left: " + inventory.getStock());
+    }
+
+    private static void runExecutor() throws InterruptedException {
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        for (int i = 1; i <= 10; i++) {
+            int taskId = i;
+
+//            executor.submit(() -> {
+//                System.out.println("Task " + taskId + " running on " + Thread.currentThread().getName());
+//            });
+
+            executor.submit(() -> {
+                System.out.println("Started task " + taskId);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+
+                System.out.println("Finished task " + taskId);
+            });
+        }
+
+        executor.shutdown();
     }
 }

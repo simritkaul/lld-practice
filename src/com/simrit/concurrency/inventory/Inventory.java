@@ -7,10 +7,13 @@ public class Inventory {
         stock += quantity;
     }
 
-    public synchronized void purchase(int quantity) {
+    public synchronized boolean purchase(int quantity) {
         if (stock >= quantity) {
             stock -= quantity;
+            return true;
         }
+
+        return false;
     }
 
     public synchronized int getStock() {
