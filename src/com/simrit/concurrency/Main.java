@@ -4,12 +4,11 @@ import com.simrit.concurrency.counter.Counter;
 import com.simrit.concurrency.inventory.Inventory;
 import com.simrit.concurrency.worker.Worker;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
-        runExecutor();
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        runExecutorWithLatch();
     }
 
     private static void runCounter() throws InterruptedException {
@@ -100,6 +99,70 @@ public class Main {
             });
         }
 
+        executor.shutdown();
+    }
+
+    private static void runExecutorWithFuture() throws InterruptedException, ExecutionException {
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        Future<Integer> future = executor.submit(() -> {
+            Thread.sleep(2000);
+            return 42;
+        });
+
+        System.out.println("Task Submitted");
+        System.out.println("Is it done? " + future.isDone());
+        Thread.sleep(3000);
+        System.out.println("Is it done now? " + future.isDone());
+
+        int result = future.get();
+        System.out.println("Result: " + result);
+        executor.shutdown();
+    }
+
+    private static void runExecutorWithLatch() throws InterruptedException, ExecutionException {
+        CountDownLatch latch = new CountDownLatch(3);
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        // Worker 1
+        executor.submit(() -> {
+           try {
+               Thread.sleep(1000);
+           } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+           } finally {
+               System.out.println("Worker A finished");
+               latch.countDown();
+           }
+        });
+
+        // Worker 2
+        executor.submit(() -> {
+           try {
+               Thread.sleep(2000);
+           } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+           } finally {
+               System.out.println("Worker B finished");
+               latch.countDown();
+           }
+        });
+
+        // Worker 3
+        executor.submit(() -> {
+           try {
+               Thread.sleep(3000);
+           } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+           } finally {
+               System.out.println("Worker C finished");
+               latch.countDown();
+           }
+        });
+
+        latch.await();
+
+        System.out.println("All workers finished!");
         executor.shutdown();
     }
 }
